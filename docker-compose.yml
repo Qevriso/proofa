@@ -1,0 +1,151 @@
+services:
+  # PHP-FPM сервис для Kimai
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    container_name: kimai-dev-php
+    volumes:
+      # Монтирование исходников с оптимизацией для macOS
+      - .:/var/www/html:cached
+      # Отдельные volumes для vendor и node_modules для лучшей производительности
+      - vendor_data:/var/www/html/vendor
+      - node_modules_data:/var/www/html/node_modules
+      - var_cache:/var/www/html/var/cache
+      - var_log:/var/www/html/var/log
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
+      DATABASE_URL: mysql://kimai:kimai@mysql:3306/kimai?charset=utf8mb4&serverVersion=8.0
+      REDIS_URL: redis://redis:6379
+      MAILER_URL: smtp://mailhog:1025
+      TRUSTED_PROXIES: nginx,127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      MAILER_FROM: kimai@localhost.dev
+      APP_SECRET: dev_secret_key_change_in_production
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kimai-dev
+
+  # Nginx веб-сервер
+  nginx:
+    image: nginx:alpine
+    container_name: kimai-dev-nginx
+    ports:
+      - "8083:80"
+    volumes:
+      - .:/var/www/html:cached
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - kimai-dev
+
+  # MySQL база данных
+  mysql:
+    image: mysql:8.0
+    container_name: kimai-dev-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: kimai
+      MYSQL_USER: kimai
+      MYSQL_PASSWORD: kimai
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql.cnf:/etc/mysql/conf.d/custom.cnf
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "kimai", "-pkimai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - kimai-dev
+
+  # Redis для кэширования и сессий
+  redis:
+    image: redis:alpine
+    container_name: kimai-dev-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - kimai-dev
+
+  # MailHog для тестирования email
+  mailhog:
+    image: mailhog/mailhog:latest
+    platform: linux/amd64
+    container_name: kimai-dev-mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - kimai-dev
+
+  # Webpack Dev Server для hot-reload frontend assets
+  webpack:
+    image: node:18-alpine
+    container_name: kimai-dev-webpack
+    working_dir: /app
+    volumes:
+      - .:/app:cached
+      - node_modules_data:/app/node_modules
+    ports:
+      - "8081:8080"  # Webpack dev server
+    command: >
+      sh -c "
+        corepack enable &&
+        if [ ! -d node_modules ]; then
+          yarn install
+        fi &&
+        yarn dev-server --host 0.0.0.0 --port 8080 --hot --watch-options-poll=1000
+      "
+    environment:
+      NODE_ENV: development
+    networks:
+      - kimai-dev
+
+  # PhpMyAdmin для управления базой данных
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    platform: linux/amd64
+    container_name: kimai-dev-phpmyadmin
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: kimai
+      PMA_PASSWORD: kimai
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - kimai-dev
+
+volumes:
+  mysql_data:
+  redis_data:
+  vendor_data:
+  node_modules_data:
+  var_cache:
+  var_log:
+
+networks:
+  kimai-dev:
+    driver: bridge

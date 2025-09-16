@@ -1,0 +1,80 @@
+# Kimai Development Docker Image
+# Оптимизировано для разработки с hot-reload на macOS
+FROM php:8.3-fpm-alpine
+
+# Установка зависимостей системы и PHP расширений
+RUN apk add --no-cache \
+    bash \
+    curl \
+    git \
+    unzip \
+    icu-dev \
+    icu-data-full \
+    libpng-dev \
+    libzip-dev \
+    libxslt-dev \
+    freetype-dev \
+    openldap-dev \
+    nodejs \
+    npm \
+    yarn
+
+# Установка PHP расширений
+RUN docker-php-ext-configure gd --with-freetype \
+    && docker-php-ext-configure ldap \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        intl \
+        ldap \
+        pdo_mysql \
+        zip \
+        xsl \
+        opcache
+
+# Установка Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Конфигурация PHP для разработки
+RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
+    && sed -i 's/memory_limit = 128M/memory_limit = 512M/' /usr/local/etc/php/php.ini \
+    && sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 64M/' /usr/local/etc/php/php.ini \
+    && sed -i 's/post_max_size = 8M/post_max_size = 64M/' /usr/local/etc/php/php.ini \
+    && sed -i 's/;opcache.enable=1/opcache.enable=1/' /usr/local/etc/php/php.ini \
+    && sed -i 's/;opcache.validate_timestamps=1/opcache.validate_timestamps=1/' /usr/local/etc/php/php.ini \
+    && sed -i 's/;opcache.revalidate_freq=2/opcache.revalidate_freq=0/' /usr/local/etc/php/php.ini
+
+# Конфигурация PHP-FPM для разработки
+RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/;clear_env = no/clear_env = no/' /usr/local/etc/php-fpm.d/www.conf
+
+# Создание пользователя для разработки (совместимость с macOS)
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+RUN addgroup -g $GROUP_ID kimai \
+    && adduser -D -u $USER_ID -G kimai kimai
+
+# Рабочая директория
+WORKDIR /var/www/html
+
+# Установка правильных прав доступа
+RUN chown -R kimai:kimai /var/www/html
+
+# Переключение на пользователя kimai
+USER kimai
+
+# Установка глобального Symfony CLI
+RUN curl -sS https://get.symfony.com/cli/installer | bash \
+    && mkdir -p ~/.local/bin \
+    && mv ~/.symfony5/bin/symfony ~/.local/bin/symfony
+
+# Добавление ~/.local/bin в PATH
+ENV PATH="/home/kimai/.local/bin:$PATH"
+
+# Порт для PHP-FPM
+EXPOSE 9000
+
+# Healthcheck для PHP-FPM
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD php-fpm -t || exit 1
+
+CMD ["php-fpm", "-F"]
