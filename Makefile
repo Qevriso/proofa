@@ -27,11 +27,24 @@ build:
 # Запустить все сервисы
 up:
 	docker-compose up -d
-	@echo "Сервисы запущены:"
-	@echo "- Kimai: http://localhost:8083"
-	@echo "- MailHog: http://localhost:8025"
-	@echo "- phpMyAdmin: http://localhost:8082"
-	@echo "- Webpack Dev Server: http://localhost:8081"
+	@echo ""
+	@echo "╔═══════════════════════════════════════════════════════════════╗"
+	@echo "║                    ДОСТУПНЫЕ СЕРВИСЫ                          ║"
+	@echo "╠═══════════════════════════════════════════════════════════════╣"
+	@echo "║ 🌐 Kimai (основное приложение):                              ║"
+	@echo "║    http://localhost:8083                                      ║"
+	@echo "║                                                               ║"
+	@echo "║ 📧 MailHog (тестирование email):                             ║"
+	@echo "║    http://localhost:8025                                      ║"
+	@echo "║                                                               ║"
+	@echo "║ 🗄️  phpMyAdmin (управление БД):                               ║"
+	@echo "║    http://localhost:8082                                      ║"
+	@echo "║                                                               ║"
+	@echo "║ ⚡ Webpack Dev Server (hot-reload):                          ║"
+	@echo "║    http://localhost:8081                                      ║"
+	@echo "╚═══════════════════════════════════════════════════════════════╝"
+	@echo ""
+	@echo "🔑 Логин: admin / Пароль: admin"
 
 # Остановить все сервисы
 down:

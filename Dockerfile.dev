@@ -50,25 +50,52 @@ RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php
 # Создание пользователя для разработки (совместимость с macOS)
 ARG USER_ID=1000
 ARG GROUP_ID=1000
-RUN addgroup -g $GROUP_ID kimai \
-    && adduser -D -u $USER_ID -G kimai kimai
+
+# Умное создание группы и пользователя для совместимости с macOS
+RUN if getent group $GROUP_ID; then \
+        GROUP_NAME=$(getent group $GROUP_ID | cut -d: -f1); \
+    else \
+        GROUP_NAME=kimai; \
+        addgroup -g $GROUP_ID $GROUP_NAME; \
+    fi \
+    && if getent passwd $USER_ID; then \
+        USER_NAME=$(getent passwd $USER_ID | cut -d: -f1); \
+        adduser $USER_NAME $GROUP_NAME 2>/dev/null || true; \
+    else \
+        USER_NAME=kimai; \
+        adduser -D -u $USER_ID -G $GROUP_NAME $USER_NAME; \
+    fi \
+    && echo "Created/using user: $USER_NAME ($USER_ID) in group: $GROUP_NAME ($GROUP_ID)"
 
 # Рабочая директория
 WORKDIR /var/www/html
 
 # Установка правильных прав доступа
-RUN chown -R kimai:kimai /var/www/html
+RUN if getent passwd $USER_ID; then \
+        USER_NAME=$(getent passwd $USER_ID | cut -d: -f1); \
+        GROUP_NAME=$(getent group $GROUP_ID | cut -d: -f1); \
+        chown -R $USER_NAME:$GROUP_NAME /var/www/html; \
+        echo "Set ownership to $USER_NAME:$GROUP_NAME"; \
+    else \
+        chown -R kimai:kimai /var/www/html; \
+    fi
 
-# Переключение на пользователя kimai
-USER kimai
+# Переключение на пользователя 
+RUN if getent passwd $USER_ID; then \
+        USER_NAME=$(getent passwd $USER_ID | cut -d: -f1); \
+        echo "Switching to user: $USER_NAME"; \
+    else \
+        USER_NAME=kimai; \
+    fi
+USER $USER_ID
 
 # Установка глобального Symfony CLI
 RUN curl -sS https://get.symfony.com/cli/installer | bash \
     && mkdir -p ~/.local/bin \
-    && mv ~/.symfony5/bin/symfony ~/.local/bin/symfony
+    && mv ~/.symfony5/bin/symfony ~/.local/bin/symfony 2>/dev/null || true
 
-# Добавление ~/.local/bin в PATH
-ENV PATH="/home/kimai/.local/bin:$PATH"
+# Добавление ~/.local/bin в PATH для текущего пользователя
+ENV PATH="~/.local/bin:$PATH"
 
 # Порт для PHP-FPM
 EXPOSE 9000
