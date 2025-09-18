@@ -28,7 +28,7 @@ final class InvoiceFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('en_US');
+        $faker = Factory::create('ru_RU');
 
         foreach ($this->getInvoiceConfigs($faker) as $invoiceConfig) {
             // name, title, renderer, calculator, numberGenerator, company, vat, dueDays, address, paymentTerms
@@ -59,19 +59,19 @@ final class InvoiceFixtures extends Fixture
      */
     private function getInvoiceConfigs(Generator $faker): array
     {
-        $paymentTerms =
-            'I would like to thank you for your confidence and will gladly be there for you in the future.' .
+        $paymentTerms_ru =
+            'Благодарим за доверие к нашей компании! Мы всегда готовы оказать вам качественные услуги.' .
             PHP_EOL .
-            'Please transfer the total amount within 14 days to the given account and use the invoice number ' .
-            'as reference.'
+            'Просим перевести общую сумму в течение 14 дней на указанный счёт. В назначении платежа обязательно ' .
+            'укажите номер данного счёта.'
         ;
 
-        $paymentTerms_alt =
-            $faker->firstName() . ', thank you very much. We really appreciate your business.' . PHP_EOL .
-            'Please send payments before the due date. I would like to thank you for your confidence and will gladly be there for you in the future.'
+        $paymentTerms_alt_ru =
+            'Спасибо за сотрудничество! Мы высоко ценим наши деловые отношения.' . PHP_EOL .
+            'Просим произвести оплату до указанной даты. Надеемся на дальнейшее плодотворное сотрудничество.'
         ;
 
-        $paymentTerms_de =
+        $paymentTerms_formal_ru =
             'Bitte überweisen Sie den Gesamtbetrag innerhalb von 14 Tagen nach Erhalt der Rechnung auf das unten genannte Konto. Verwenden Sie bitte als Betreff Ihrer Überweisung die Rechnungsnummer.' .
             PHP_EOL .
             PHP_EOL .
@@ -83,30 +83,46 @@ final class InvoiceFixtures extends Fixture
             'Max Müller'
         ;
 
+        // Русские компании для реалистичности
+        $russianCompanies = [
+            'ООО "ТехСервис"',
+            'ИП Сидоров А.В.',
+            'ООО "РосРазработка"',
+            'ЗАО "СтройИнвест"'
+        ];
+        
         // name, title, renderer, calculator, numberGenerator, company, vat, dueDays, address, paymentTerms
         return [
-            ['Default (PDF)',             'Invoice',         'default',         'default',  'default', $faker->company(), 16, 10, $paymentTerms],
-            ['Invoice (HTML)',            'Company name',    'invoice',         'default',  'default', $faker->company(), 19, 30, $paymentTerms],
-            ['Single service date (PDF)', 'Invoice',         'service-date',    'short',    'default', $faker->company(), 19, 14, $paymentTerms_de],
-            ['Timesheet (HTML)',          'Timesheet',       'timesheet',       'default',  'default', $faker->company(), 19, 7,  $paymentTerms_alt],
+            ['Основной (PDF)',            'Счёт',           'default',         'default',  'default', $faker->randomElement($russianCompanies), 20, 10, $paymentTerms_ru],
+            ['Счёт-фактура (HTML)',       'Компания',       'invoice',         'default',  'default', $faker->randomElement($russianCompanies), 20, 30, $paymentTerms_ru],
+            ['По дате услуги (PDF)',      'Счёт',           'service-date',    'short',    'default', $faker->randomElement($russianCompanies), 20, 14, $paymentTerms_formal_ru],
+            ['Табель времени (HTML)',     'Табель',         'timesheet',       'default',  'default', $faker->randomElement($russianCompanies), 20, 7,  $paymentTerms_alt_ru],
         ];
     }
 
     private function generatePaymentDetails(Generator $faker): string
     {
+        $russianBanks = [
+            'ПАО Сбербанк',
+            'Банк ВТБ (ПАО)',
+            'АО "Альфа-Банк"',
+            'Банк ГПБ (АО)'
+        ];
+        
         return
-            'Acme Bank' . PHP_EOL .
-            'BIC: ' . $faker->swiftBicNumber() . PHP_EOL .
-            'IBAN: ' . $faker->iban('DE')
+            $faker->randomElement($russianBanks) . PHP_EOL .
+            'БИК: ' . $faker->numerify('04########') . PHP_EOL .
+            'Корр. счёт: ' . $faker->numerify('301##810#########') . PHP_EOL .
+            'Расч. счёт: ' . $faker->numerify('407##810#########')
         ;
     }
 
     private function generateContact(Generator $faker): string
     {
         return
-            'Phone: ' . $faker->phoneNumber() . PHP_EOL .
+            'Телефон: ' . $faker->phoneNumber() . PHP_EOL .
             'Email: ' . $faker->safeEmail() . PHP_EOL .
-            'Web: www.' . $faker->domainName()
+            'Сайт: www.' . $faker->domainName()
         ;
     }
 

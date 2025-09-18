@@ -40,11 +40,14 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
 
     public const AMOUNT_EXTRA_USER = 25;
 
-    public const MIN_RATE = 30;
-    public const MAX_RATE = 120;
+    public const MIN_RATE = 800;
+    public const MAX_RATE = 3000;
+
+    private array $timesheetPatterns;
 
     public function __construct(private readonly UserPasswordHasherInterface $passwordHasher)
     {
+        $this->timesheetPatterns = require __DIR__ . '/Data/timesheet_patterns.php';
     }
 
     public static function getGroups(): array
@@ -82,7 +85,21 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
     {
         $preferences = [];
 
-        $prefHourlyRate = new UserPreference(UserPreference::HOURLY_RATE, rand(self::MIN_RATE, self::MAX_RATE));
+        // Определяем диапазон ставки на основе роли пользователя
+        $roles = $user->getRoles();
+        $primaryRole = 'ROLE_USER'; // значение по умолчанию
+        
+        foreach (['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_TEAMLEAD', 'ROLE_USER'] as $role) {
+            if (in_array($role, $roles)) {
+                $primaryRole = $role;
+                break;
+            }
+        }
+
+        $rateRange = $this->timesheetPatterns['hourly_rates_by_role'][$primaryRole] ?? [self::MIN_RATE, self::MAX_RATE];
+        $hourlyRate = rand($rateRange[0], $rateRange[1]);
+
+        $prefHourlyRate = new UserPreference(UserPreference::HOURLY_RATE, $hourlyRate);
         $user->addPreference($prefHourlyRate);
         $preferences[] = $prefHourlyRate;
 
@@ -92,6 +109,11 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
             $preferences[] = $prefTimezone;
         }
 
+        // Добавляем язык по умолчанию
+        $prefLanguage = new UserPreference('language', 'ru');
+        $user->addPreference($prefLanguage);
+        $preferences[] = $prefLanguage;
+
         return $preferences;
     }
 
@@ -100,7 +122,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
      */
     private function loadTestUsers(ObjectManager $manager): void
     {
-        $faker = Factory::create();
+        $faker = Factory::create('ru_RU');
         $existingName = [];
         $existingEmail = [];
 
@@ -126,6 +148,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
             $user->setEmail($email);
             $user->setRoles([User::ROLE_USER]);
             $user->setEnabled(true);
+            $user->setColor($faker->hexColor());
             $user->setPassword($this->passwordHasher->hashPassword($user, self::DEFAULT_PASSWORD));
             $manager->persist($user);
 
@@ -154,6 +177,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setEmail('john_user@example.com');
         $user->setRoles([User::ROLE_USER]);
         $user->setAvatar(self::DEFAULT_AVATAR);
+        $user->setColor('#2E8B57');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'America/Vancouver');
         $user->setPreferences($prefs);
@@ -170,6 +194,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setEmail('user@example.com');
         $user->setRoles([User::ROLE_USER]);
         $user->setAvatar(self::DEFAULT_AVATAR);
+        $user->setColor('#4169E1');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'America/Vancouver');
         $user->setPreferences($prefs);
@@ -187,6 +212,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setEmail('chris_user@example.com');
         $user->setRoles([User::ROLE_USER]);
         $user->setAvatar(self::DEFAULT_AVATAR);
+        $user->setColor('#808080');
         $user->setEnabled(false);
         $prefs = $this->getUserPreferences($user, 'Australia/Sydney');
         $user->setPreferences($prefs);
@@ -203,6 +229,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setEmail('tony_teamlead@example.com');
         $user->setRoles([User::ROLE_TEAMLEAD]);
         $user->setAvatar('https://en.gravatar.com/userimage/3533186/bf2163b1dd23f3107a028af0195624e9.jpeg');
+        $user->setColor('#FF6347');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'Asia/Bangkok');
         $user->setPreferences($prefs);
@@ -219,6 +246,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setEmail('teamlead@example.com');
         $user->setRoles([User::ROLE_TEAMLEAD]);
         $user->setAvatar('https://en.gravatar.com/userimage/3533186/bf2163b1dd23f3107a028af0195624e9.jpeg');
+        $user->setColor('#32CD32');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'Asia/Bangkok');
         $user->setPreferences($prefs);
@@ -235,6 +263,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setUserIdentifier(self::USERNAME_ADMIN);
         $user->setEmail('anna_admin@example.com');
         $user->setRoles([User::ROLE_ADMIN]);
+        $user->setColor('#DC143C');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'Europe/London');
         $user->setPreferences($prefs);
@@ -250,6 +279,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setUserIdentifier('administrator');
         $user->setEmail('administrator@example.com');
         $user->setRoles([User::ROLE_ADMIN]);
+        $user->setColor('#9932CC');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'Europe/London');
         $user->setPreferences($prefs);
@@ -266,6 +296,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setEmail('susan_super@example.com');
         $user->setRoles([User::ROLE_SUPER_ADMIN]);
         $user->setAvatar('/touch-icon-192x192.png');
+        $user->setColor('#FFD700');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'Europe/Berlin');
         $user->setPreferences($prefs);
@@ -281,6 +312,7 @@ final class UserFixtures extends Fixture implements FixtureGroupInterface
         $user->setEmail('super_admin@example.com');
         $user->setRoles([User::ROLE_SUPER_ADMIN]);
         $user->setAvatar('/touch-icon-192x192.png');
+        $user->setColor('#FF8C00');
         $user->setEnabled(true);
         $prefs = $this->getUserPreferences($user, 'Europe/Berlin');
         $user->setPreferences($prefs);

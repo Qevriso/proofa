@@ -3,6 +3,8 @@
 /.env-*
 /.idea/
 .DS_Store
+data/
+ai-helpers/
 
 # custom apache rules e.g. to deactivate ioncube loader
 /public/.user.ini
