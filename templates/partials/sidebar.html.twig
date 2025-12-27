@@ -1,0 +1,156 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+
+<aside class="proofa-sidebar">
+
+    <!-- ================= TOP ================= -->
+    <div class="proofa-sidebar__top">
+
+        <button class="proofa-workspace-toggle" id="workspaceToggle" type="button">
+            <div class="proofa-workspace">
+                <div class="proofa-workspace__logo">G</div>
+
+                <div class="proofa-workspace__info">
+                    <div class="proofa-workspace__name">GoodGantt Company</div>
+                    <div class="proofa-workspace__members">8 участников</div>
+                </div>
+            </div>
+
+            <div class="proofa-workspace__dots">⋮</div>
+        </button>
+
+        <!-- WORKSPACE MENU -->
+        <div class="proofa-workspace-menu" id="workspaceMenu">
+            <div class="workspace-card">
+
+                <div class="workspace-card__header">
+                    <div class="workspace-card__logo">G</div>
+                    <div>
+                        <div class="workspace-card__title">GoodGantt Company</div>
+                        <div class="workspace-card__subtitle">
+                            Бесплатный тариф • 8 участников
+                        </div>
+                    </div>
+                </div>
+
+                <div class="workspace-card__actions">
+                    <button class="btn-outline">
+                        <img src="{{ asset('icons/sidebar/settings.svg') }}" alt="">
+                        Настройки
+                    </button>
+                    <button class="btn-outline">
+                        <img src="{{ asset('icons/sidebar/invite.svg') }}" alt="">
+                        Пригласить
+                    </button>
+                </div>
+
+                <div class="workspace-card__list">
+                    <div class="workspace-item active">
+                        <span class="avatar">A</span>
+                        <span>Название_компании</span>
+                        <span class="check">✓</span>
+                    </div>
+                    <div class="workspace-item">
+                        <span class="avatar">A</span>
+                        <span>Название_компании</span>
+                    </div>
+                    <div class="workspace-item">
+                        <span class="avatar">A</span>
+                        <span>Название_компании</span>
+                    </div>
+                    <div class="workspace-item">
+                        <span class="avatar">A</span>
+                        <span>Название_компании</span>
+                    </div>
+                </div>
+
+                <div class="workspace-card__footer">
+                    <a href="#">Добавить рабочее пространство</a>
+                    <a href="#">Выйти</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= NAV (WHITE) ================= -->
+    <nav class="proofa-nav">
+
+        <a href="/{{ app.request.locale }}/dashboard"
+           class="proofa-nav__item {{ currentRoute starts with 'dashboard' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/dashboard.svg') }}">
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#"
+           class="proofa-nav__item {{ currentRoute starts with 'ai' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/ai.svg') }}">
+            <span>AI ассистент</span>
+        </a>
+
+        <a href="/{{ app.request.locale }}/calendar"
+           class="proofa-nav__item {{ currentRoute starts with 'calendar' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/meetings.svg') }}">
+            <span>Встречи</span>
+        </a>
+
+        <a href="/{{ app.request.locale }}/reporting"
+           class="proofa-nav__item {{ currentRoute starts with 'reporting' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/reports.svg') }}">
+            <span>Отчеты</span>
+        </a>
+
+        <a href="/{{ app.request.locale }}/timesheet"
+           class="proofa-nav__item {{ currentRoute starts with 'timesheet' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/activity.svg') }}">
+            <span>Активность</span>
+        </a>
+
+        <a href="/{{ app.request.locale }}/projects"
+           class="proofa-nav__item {{ currentRoute starts with 'project' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/projects.svg') }}">
+            <span>Проекты и клиенты</span>
+        </a>
+
+        <a href="/{{ app.request.locale }}/invoice"
+           class="proofa-nav__item {{ currentRoute starts with 'invoice' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/invoices.svg') }}">
+            <span>Счета</span>
+        </a>
+
+    </nav>
+
+    <!-- ================= BOTTOM ================= -->
+    <div class="proofa-sidebar__bottom">
+        <a href="#" class="proofa-nav__item">
+            <img src="{{ asset('icons/sidebar/team.svg') }}">
+            <span>Настройки команды</span>
+        </a>
+        <a href="#" class="proofa-nav__item">
+            <img src="{{ asset('icons/sidebar/more.svg') }}">
+            <span>Еще</span>
+        </a>
+    </div>
+
+</aside>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('workspaceToggle');
+    const menu   = document.getElementById('workspaceMenu');
+
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        menu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+            menu.classList.remove('open');
+        }
+    });
+});
+</script>

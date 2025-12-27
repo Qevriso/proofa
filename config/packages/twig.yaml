@@ -1,9 +1,16 @@
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    exception_controller: null
+
+    default_path: '%kernel.project_dir%/templates'
+
     form_themes:
         - 'form/vertical.html.twig'
-    exception_controller: null
+
     paths:
         '%kernel.project_dir%/templates/bundles/TablerBundle': theme
         '%kernel.project_dir%/vendor/kevinpapst/tabler-bundle/templates': theme
+
+    globals:
+        proofa_topbar_config: '@proofa.topbar_config'

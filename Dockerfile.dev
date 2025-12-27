@@ -1,8 +1,7 @@
 # Kimai Development Docker Image
-# Оптимизировано для разработки с hot-reload на macOS
 FROM php:8.3-fpm-alpine
 
-# Установка зависимостей системы и PHP расширений
+# System dependencies
 RUN apk add --no-cache \
     bash \
     curl \
@@ -19,89 +18,51 @@ RUN apk add --no-cache \
     npm \
     yarn
 
-# Установка PHP расширений
+# PHP extensions
 RUN docker-php-ext-configure gd --with-freetype \
-    && docker-php-ext-configure ldap \
-    && docker-php-ext-install -j$(nproc) \
-        gd \
-        intl \
-        ldap \
-        pdo_mysql \
-        zip \
-        xsl \
-        opcache
+ && docker-php-ext-configure ldap \
+ && docker-php-ext-install -j$(nproc) \
+    gd \
+    intl \
+    ldap \
+    pdo_mysql \
+    zip \
+    xsl \
+    opcache
 
-# Установка Composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Конфигурация PHP для разработки
+# PHP config (dev)
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
-    && sed -i 's/memory_limit = 128M/memory_limit = 512M/' /usr/local/etc/php/php.ini \
-    && sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 64M/' /usr/local/etc/php/php.ini \
-    && sed -i 's/post_max_size = 8M/post_max_size = 64M/' /usr/local/etc/php/php.ini \
-    && sed -i 's/;opcache.enable=1/opcache.enable=1/' /usr/local/etc/php/php.ini \
-    && sed -i 's/;opcache.validate_timestamps=1/opcache.validate_timestamps=1/' /usr/local/etc/php/php.ini \
-    && sed -i 's/;opcache.revalidate_freq=2/opcache.revalidate_freq=0/' /usr/local/etc/php/php.ini
+ && sed -i 's/memory_limit = 128M/memory_limit = 512M/' /usr/local/etc/php/php.ini \
+ && sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 64M/' /usr/local/etc/php/php.ini \
+ && sed -i 's/post_max_size = 8M/post_max_size = 64M/' /usr/local/etc/php/php.ini \
+ && sed -i 's/;opcache.enable=1/opcache.enable=1/' /usr/local/etc/php/php.ini \
+ && sed -i 's/;opcache.validate_timestamps=1/opcache.validate_timestamps=1/' /usr/local/etc/php/php.ini \
+ && sed -i 's/;opcache.revalidate_freq=2/opcache.revalidate_freq=0/' /usr/local/etc/php/php.ini
 
-# Конфигурация PHP-FPM для разработки
+# PHP-FPM config
 RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i 's/;clear_env = no/clear_env = no/' /usr/local/etc/php-fpm.d/www.conf
+ && sed -i 's/;clear_env = no/clear_env = no/' /usr/local/etc/php-fpm.d/www.conf
 
-# Создание пользователя для разработки (совместимость с macOS)
-ARG USER_ID=1000
-ARG GROUP_ID=1000
-
-# Умное создание группы и пользователя для совместимости с macOS
-RUN if getent group $GROUP_ID; then \
-        GROUP_NAME=$(getent group $GROUP_ID | cut -d: -f1); \
-    else \
-        GROUP_NAME=kimai; \
-        addgroup -g $GROUP_ID $GROUP_NAME; \
-    fi \
-    && if getent passwd $USER_ID; then \
-        USER_NAME=$(getent passwd $USER_ID | cut -d: -f1); \
-        adduser $USER_NAME $GROUP_NAME 2>/dev/null || true; \
-    else \
-        USER_NAME=kimai; \
-        adduser -D -u $USER_ID -G $GROUP_NAME $USER_NAME; \
-    fi \
-    && echo "Created/using user: $USER_NAME ($USER_ID) in group: $GROUP_NAME ($GROUP_ID)"
-
-# Рабочая директория
+# Workdir
 WORKDIR /var/www/html
 
-# Установка правильных прав доступа
-RUN if getent passwd $USER_ID; then \
-        USER_NAME=$(getent passwd $USER_ID | cut -d: -f1); \
-        GROUP_NAME=$(getent group $GROUP_ID | cut -d: -f1); \
-        chown -R $USER_NAME:$GROUP_NAME /var/www/html; \
-        echo "Set ownership to $USER_NAME:$GROUP_NAME"; \
-    else \
-        chown -R kimai:kimai /var/www/html; \
-    fi
+# 🔥 КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ
+# Cache и log создаются ВНУТРИ контейнера
+RUN mkdir -p /var/www/html/var/cache/dev \
+             /var/www/html/var/log \
+ && chown -R www-data:www-data /var/www/html/var \
+ && chmod -R 777 /var/www/html/var
 
-# Переключение на пользователя 
-RUN if getent passwd $USER_ID; then \
-        USER_NAME=$(getent passwd $USER_ID | cut -d: -f1); \
-        echo "Switching to user: $USER_NAME"; \
-    else \
-        USER_NAME=kimai; \
-    fi
-USER $USER_ID
-
-# Установка глобального Symfony CLI
+# Symfony CLI (не обязательно, но пусть будет)
 RUN curl -sS https://get.symfony.com/cli/installer | bash \
-    && mkdir -p ~/.local/bin \
-    && mv ~/.symfony5/bin/symfony ~/.local/bin/symfony 2>/dev/null || true
+ && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony || true
 
-# Добавление ~/.local/bin в PATH для текущего пользователя
-ENV PATH="~/.local/bin:$PATH"
-
-# Порт для PHP-FPM
 EXPOSE 9000
 
-# Healthcheck для PHP-FPM
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD php-fpm -t || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD php-fpm -t || exit 1
 
 CMD ["php-fpm", "-F"]

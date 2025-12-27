@@ -1,0 +1,42 @@
+{% set route = app.request.attributes.get('_route')|default('') %}
+
+<h1 class="proofa-topbar__title">Активность</h1>
+
+<nav class="proofa-topbar__nav">
+
+  <a href="{{ path('timesheet') }}"
+     class="proofa-topbar__link {{ route starts with 'timesheet' ? 'is-active' : '' }}">
+    Мои задачи
+  </a>
+
+  <a href="{{ path('report_user_week') }}"
+     class="proofa-topbar__link {{ route == 'report_user_week' ? 'is-active' : '' }}">
+    Время за неделю
+  </a>
+
+  <a href="{{ path('calendar') }}"
+     class="proofa-topbar__link {{ route starts with 'calendar' ? 'is-active' : '' }}">
+    Календарь
+  </a>
+
+  <a href="{{ path('report_user_month') }}"
+     class="proofa-topbar__link {{ route == 'report_user_month' ? 'is-active' : '' }}">
+    Общее время
+  </a>
+
+  <a href="{{ path('report_user_year') }}"
+     class="proofa-topbar__link {{ route == 'report_user_year' ? 'is-active' : '' }}">
+    Время работы
+  </a>
+
+  <a href="{{ path('reporting') }}"
+     class="proofa-topbar__link {{ route starts with 'reporting' ? 'is-active' : '' }}">
+    Вся активность
+  </a>
+
+  <a href="{{ path('export') }}"
+     class="proofa-topbar__link {{ route == 'export' ? 'is-active' : '' }}">
+    Экспорт
+  </a>
+
+</nav>

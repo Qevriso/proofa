@@ -1,59 +1,499 @@
-.inline-search {
-    max-width: 200px;
+/* =========================================================
+   PROOFA — WORKING SIDEBAR + DROPDOWN + TOPBAR (CLEAN)
+   База: твой рабочий CSS (dropdown + active icons)
+   Патч: фон как в макете + серые плашки + выравнивание вверх
+   ========================================================= */
+
+
+/* =========================================================
+   0) BASE + FORCE WHITE PAGE (FIX TEMPLATE GRAY BG)
+   ========================================================= */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body {
+  overflow-x: hidden;
+  background: #FFFFFF !important;   /* ВАЖНО: страница белая */
 }
 
-@media (min-width: 360px) {
-    .inline-search {
-        max-width: 235px;
-    }
+/* Tabler/Kimai иногда красит фон через wrappers */
+.page,
+.page-wrapper,
+.page-body,
+.page-content,
+.content,
+main,
+#app {
+  background: #FFFFFF !important;
 }
 
-@include media-breakpoint-up(md) {
-    .inline-search {
-        max-width: 325px;
-    }
-    .search-dropdown {
-        width: 500px;
-    }
+
+/* =========================================================
+   1) SIDEBAR (WORKING)
+   ========================================================= */
+
+.proofa-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border-right: 1px solid #E6EAF2;
+  z-index: 1000;
 }
 
-/* Format the company title in the left navigation, as Tabler is optimized for an image only */
-h1.navbar-brand a {
-    span {
-        display: inline-block;
-        padding-top: 0.5rem;
-    }
-    &:hover {
-        text-decoration: none;
-    }
+/* TOP (GRAY PILL AREA like Figma) */
+.proofa-sidebar__top {
+  position: relative;
+  padding: 12px;
+  background: #F7F9FC; /* серая плашка сверху */
 }
 
-.page-actions .dropdown-menu,
-#export-buttons .dropdown-menu,
-.inline-search .dropdown-menu {
-    /* bootstrap thead.sticky-top has z-index 1020 and the reporting form dropdowns hide behind that */
-    z-index: 1021;
+/* WORKSPACE TOGGLE */
+.proofa-workspace-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  text-align: left;
 }
 
-/* reduce the default font size for the brand header */
-.navbar {
-    --tblr-navbar-brand-font-size: 1rem;
+.proofa-workspace {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
-/* user shortcuts dropdown */
-.user-shortcuts {
-    .dropdown-menu-card {
-        min-width: 260px;
-    }
-    .user-shortcuts-icon {
-        background-color: var(--tblr-bg-surface-secondary);
-        color: var(--tblr-gray-500);
-        height: 3.125rem;
-        width: 3.125rem;
-        margin-left: auto;
-        margin-right: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+.proofa-workspace__logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #2563EB;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.proofa-workspace__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.proofa-workspace__name {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.proofa-workspace__members {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.proofa-workspace__dots {
+  font-size: 18px;
+  opacity: 0.6;
+}
+
+/* WORKSPACE DROPDOWN (FIGMA / WORKING) */
+.proofa-workspace-menu {
+  position: absolute;
+  left: 12px;
+  top: 68px;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: all .2s ease;
+  z-index: 3000;
+}
+
+.proofa-workspace-menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.workspace-card {
+  width: 251px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(47, 70, 83, 0.12);
+  color: #1C1C1C;
+}
+
+.workspace-card__header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.workspace-card__logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #2563EB;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.workspace-card__title { font-weight: 600; }
+
+.workspace-card__subtitle {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.workspace-card__actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.btn-outline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #D0D7DE;
+  background: #FFFFFF;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.workspace-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.workspace-item .avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #F7941D;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.workspace-item.active .check { margin-left: auto; }
+
+.workspace-card__footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* NAV (WHITE AREA) */
+.proofa-nav {
+  flex: 1;
+  padding: 12px 8px;
+  background: #FFFFFF; /* середина белая */
+}
+
+.proofa-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: #1F2937;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 4px;
+  transition: background .15s ease, color .15s ease;
+}
+
+/* ICONS (WORKING) */
+.proofa-nav__item img {
+  width: 20px;
+  height: 20px;
+  opacity: 0.7;
+  filter: grayscale(1);
+  transition: all .15s ease;
+}
+
+.proofa-nav__item:hover {
+  background: #EEF2FF;
+}
+
+/* ACTIVE */
+.proofa-nav__item.is-active {
+  background: #EEF2FF;
+  color: #2563EB;
+}
+
+.proofa-nav__item.is-active img {
+  opacity: 1;
+  filter: none;
+}
+
+/* BOTTOM (GRAY like Figma) */
+.proofa-sidebar__bottom {
+  padding: 12px;
+  background: #F7F9FC; /* серая плашка снизу */
+}
+
+/* CONTENT SHIFT */
+.proofa-content {
+  margin-left: 260px;
+  max-width: 100%;
+  overflow-x: hidden;
+  width: calc(100% - 260px);
+}
+
+
+/* =========================================================
+   2) TOPBAR (MATCH FIGMA: WHITE PAGE + GRAY TABS BAR)
+   ========================================================= */
+
+.proofa-topbar {
+  background: #FFFFFF;
+  padding: 12px 24px 0;  /* ПОДНЯЛИ ВВЕРХ: было 24px */
+  margin: 0;
+}
+
+.proofa-topbar__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  border-bottom: none;   /* В макете линия не обязательна, можно вернуть */
+  padding-bottom: 0;
+  position: relative;
+}
+
+.proofa-topbar__title {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  color: #111827;
+}
+
+/* Серый контейнер под табами (как в макете) */
+.proofa-topbar__nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #F7F9FC;   /* серая плашка */
+  border-radius: 12px;
+  padding: 6px;
+}
+
+/* таб */
+.proofa-topbar__link {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7280;
+  text-decoration: none;
+  position: relative;
+  background: transparent;
+}
+
+.proofa-topbar__link:hover {
+  background: #EEF2FF;
+  color: #111827;
+}
+
+.proofa-topbar__link.is-active {
+  background: #EEF2FF;
+  color: #2563EB;
+}
+
+/* right actions (three dots + import button) */
+.proofa-topbar__actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  gap: 10px;
+}
+
+
+/* =========================================================
+   3) PAGE CONTAINER WIDTH + REMOVE TOP AIR (ALIGN WITH SIDEBAR)
+   ========================================================= */
+
+.page-body > .container-xl {
+  max-width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 0 !important;  /* ВАЖНО: убираем воздух сверху */
+  margin-top: 0 !important;
+}
+
+/* ещё жёстче прижимаем контент вверх */
+.page-body,
+.page-content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+
+/* =========================================================
+   4) DISABLE DEFAULT KIMAI SIDEBAR
+   ========================================================= */
+
+.navbar.navbar-vertical {
+  display: none !important;
+}
+
+
+/* =========================================================
+   5) SAFE PATCH — REMOVE DEFAULT TOP NAVBAR (SEARCH/USER BAR)
+   ========================================================= */
+
+header.navbar,
+header[class*="navbar"],
+.navbar.navbar-expand-md,
+.navbar.navbar-top,
+.navbar.navbar-overlap,
+.navbar.navbar-light.d-print-none {
+  display: none !important;
+}
+
+.page-wrapper,
+.page {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Layout safety: no cutting */
+.page-wrapper,
+.page-body,
+.page-content,
+.proofa-content,
+.container-xl,
+.container-fluid {
+  min-width: 0;
+}
+
+.page-wrapper {
+  margin-left: 0 !important;
+}
+
+/* Убираем служебные отступы Kimai */
+.page-header {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: unset !important;
+}
+
+
+/* =========================================================
+   FINAL FIX — REMOVE KIMAI PAGE HEADER GAP (REAL CAUSE)
+   ========================================================= */
+
+/* полностью гасим служебный page-header */
+.page-header {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+
+/* если Kimai всё равно рендерит внутренности */
+.page-header * {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* точечно убиваем виновника — mt-1 под заголовком */
+.page-header .text-body-secondary,
+.text-body-secondary.mt-1 {
+  margin-top: 0 !important;
+}
+
+/* контроль: контент стартует строго сверху */
+.page-body,
+.page-content,
+.page-body > .container-xl {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
+
+
+/* =========================================================
+   PROOFA TOPBAR ACTIONS (FIGMA MATCH)
+   ========================================================= */
+
+.proofa-topbar__actions {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* three dots button */
+.proofa-topbar__icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: #F7F9FC;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.proofa-topbar__icon-btn:hover {
+  background: #EEF2FF;
+  color: #2563EB;
+}
+
+/* import button */
+.proofa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.proofa-btn--outline {
+  background: #FFFFFF;
+  border: 1px solid #D0D7DE;
+  color: #111827;
+}
+
+.proofa-btn--outline:hover {
+  background: #F1F5F9;
 }
