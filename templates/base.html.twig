@@ -35,13 +35,15 @@
 {% endblock %}
 
 {% block page_content_class %}
-    {{ parent() }} proofa-content
+    {{ parent() }} proofa-content proofa-content--has-topbar
 {% endblock %}
 
-{% block page_content_start %}
-    {# === PROOFA TOPBAR (SECOND LEVEL MENU) === #}
-    {% include 'partials/topbar.html.twig' %}
 
+{% block page_content_start %}
+    <div class="page-content-inner">
+        {% include 'partials/topbar.html.twig' %}
+    </div>
+    
     {% if app.session and app.session.started and app.session.flashbag.peekAll|length > 0 %}
         {% set domain = 'flashmessages' %}
         <script>

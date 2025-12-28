@@ -5,17 +5,37 @@
     <!-- ================= TOP ================= -->
     <div class="proofa-sidebar__top">
 
-        <button class="proofa-workspace-toggle" id="workspaceToggle" type="button">
+        <button
+            class="proofa-workspace-toggle"
+            id="workspaceToggle"
+            type="button"
+        >
             <div class="proofa-workspace">
-                <div class="proofa-workspace__logo">G</div>
+
+                <div class="proofa-workspace__logo">
+                    G
+                </div>
 
                 <div class="proofa-workspace__info">
-                    <div class="proofa-workspace__name">GoodGantt Company</div>
-                    <div class="proofa-workspace__members">8 участников</div>
+                    <div class="proofa-workspace__name">
+                        GoodGantt Company GoodGantt GoodGantt
+                    </div>
+                    <div class="proofa-workspace__members">
+                        8 участников
+                    </div>
                 </div>
+
             </div>
 
-            <div class="proofa-workspace__dots">⋮</div>
+            {# 🔴 ВМЕСТО ⋮ — SVG #}
+           <div class="proofa-workspace__dots">
+    <img
+        src="{{ asset('icons/sidebar/more.svg') }}"
+        alt="Меню"
+        class="proofa-workspace__dots-icon"
+    >
+</div>
+
         </button>
 
         <!-- WORKSPACE MENU -->
@@ -25,7 +45,9 @@
                 <div class="workspace-card__header">
                     <div class="workspace-card__logo">G</div>
                     <div>
-                        <div class="workspace-card__title">GoodGantt Company</div>
+                        <div class="workspace-card__title">
+                            GoodGantt Company
+                        </div>
                         <div class="workspace-card__subtitle">
                             Бесплатный тариф • 8 участников
                         </div>
@@ -33,14 +55,14 @@
                 </div>
 
                 <div class="workspace-card__actions">
-                    <button class="btn-outline">
+                    <a href="/{{ app.request.locale }}/admin/team/" class="btn-outline">
                         <img src="{{ asset('icons/sidebar/settings.svg') }}" alt="">
                         Настройки
-                    </button>
-                    <button class="btn-outline">
+                    </a>
+                    <a href="/{{ app.request.locale }}/admin/user/create/" class="btn-outline">
                         <img src="{{ asset('icons/sidebar/invite.svg') }}" alt="">
                         Пригласить
-                    </button>
+                    </a>
                 </div>
 
                 <div class="workspace-card__list">
@@ -48,10 +70,6 @@
                         <span class="avatar">A</span>
                         <span>Название_компании</span>
                         <span class="check">✓</span>
-                    </div>
-                    <div class="workspace-item">
-                        <span class="avatar">A</span>
-                        <span>Название_компании</span>
                     </div>
                     <div class="workspace-item">
                         <span class="avatar">A</span>
@@ -74,7 +92,6 @@
 
     <!-- ================= NAV (WHITE) ================= -->
     <nav class="proofa-nav">
-
         <a href="/{{ app.request.locale }}/dashboard"
            class="proofa-nav__item {{ currentRoute starts with 'dashboard' ? 'is-active' }}">
             <img src="{{ asset('icons/sidebar/dashboard.svg') }}">
@@ -105,9 +122,10 @@
             <span>Активность</span>
         </a>
 
-        <a href="/{{ app.request.locale }}/projects"
-           class="proofa-nav__item {{ currentRoute starts with 'project' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/projects.svg') }}">
+        {# Проекты и Клиенты — ведёт на admin_project #}
+        <a href="{{ path('admin_project', {'_locale': app.request.locale}) }}"
+           class="proofa-nav__item {{ currentRoute starts with 'admin_project' ? 'is-active' }}">
+            <img src="{{ asset('icons/sidebar/projects.svg') }}" alt="">
             <span>Проекты и клиенты</span>
         </a>
 
@@ -116,20 +134,21 @@
             <img src="{{ asset('icons/sidebar/invoices.svg') }}">
             <span>Счета</span>
         </a>
-
     </nav>
 
     <!-- ================= BOTTOM ================= -->
-    <div class="proofa-sidebar__bottom">
-        <a href="#" class="proofa-nav__item">
-            <img src="{{ asset('icons/sidebar/team.svg') }}">
-            <span>Настройки команды</span>
-        </a>
-        <a href="#" class="proofa-nav__item">
-            <img src="{{ asset('icons/sidebar/more.svg') }}">
-            <span>Еще</span>
-        </a>
-    </div>
+<!-- ================= BOTTOM ================= -->
+<div class="proofa-sidebar__bottom">
+    <a href="#" class="proofa-nav__item">
+        <img src="{{ asset('icons/sidebar/team.svg') }}">
+        <span>Настройки команды</span>
+    </a>
+    <a href="#" class="proofa-nav__item">
+        <img src="{{ asset('icons/sidebar/more.svg') }}">
+        <span>Еще</span>
+    </a>
+</div>
+
 
 </aside>
 

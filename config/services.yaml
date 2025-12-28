@@ -15,7 +15,9 @@ services:
             $projectDirectory: '%kernel.project_dir%'
             $kernelEnvironment: '%kernel.environment%'
 
-    App\Proofa\TopbarConfigFactory: ~
+    App\Proofa\TopbarConfigFactory:
+        autowire: true
+        public: false
 
     proofa.topbar_config:
         class: array

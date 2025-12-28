@@ -44,19 +44,18 @@
 
                 {# import button — ONLY for timesheet #}
                 {% if currentRoute starts with 'timesheet' %}
-                    <a
-                        href="#"
-                        class="proofa-btn proofa-btn--outline"
-                    >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
-                        Импортировать задачи
-                    </a>
+                <a
+    href="#"
+    class="proofa-btn proofa-btn--outline"
+>
+    <img
+        src="{{ asset('icons/sidebar/team.svg') }}"
+        alt=""
+        class="proofa-btn__icon"
+    >
+    Импортировать задачи
+</a>
+
                 {% endif %}
 
                 {# existing CREATE button — untouched #}
