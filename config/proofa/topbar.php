@@ -32,6 +32,10 @@ return [
             'timesheet',
             'calendar',
             'reporting',
+            'report_user_week',
+            'report_user_month',
+            'report_user_year',
+            'export',
         ],
 
         'tabs' => [
@@ -43,8 +47,7 @@ return [
 
             [
                 'label' => 'Время за неделю',
-                'route' => 'timesheet',
-                'query' => ['view' => 'week'],
+                'route' => 'report_user_week',
             ],
 
             [
@@ -52,35 +55,24 @@ return [
                 'route' => 'calendar',
             ],
 
-            /*
-             * ВСЕ ОСТАЛЬНЫЕ — ВРЕМЕННО ведут
-             * на безопасный dashboard
-             * (позже заменим на реальные роуты)
-             */
-
             [
                 'label' => 'Общее время',
-                'route' => 'dashboard',
-            ],
-
-            [
-                'label' => 'Отсутствие',
-                'route' => 'dashboard',
+                'route' => 'report_user_month',
             ],
 
             [
                 'label' => 'Время работы',
-                'route' => 'dashboard',
+                'route' => 'report_user_year',
             ],
 
             [
                 'label' => 'Вся активность',
-                'route' => 'dashboard',
+                'route' => 'reporting',
             ],
 
             [
                 'label' => 'Экспорт',
-                'route' => 'dashboard',
+                'route' => 'export',
             ],
         ],
     ],

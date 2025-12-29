@@ -6,6 +6,9 @@
 /data/
 ai-helpers/
 
+# local DB backups (should not be committed)
+backup_kimai*.sql
+
 # custom apache rules e.g. to deactivate ioncube loader
 /public/.user.ini
 
@@ -64,3 +67,6 @@ yarn-error.log
 /nbproject/*
 
 .dockerhub.secrets
+
+# Windows/NTFS security stream artifacts (often appear after downloading files)
+*Zone.Identifier*

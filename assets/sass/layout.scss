@@ -38,19 +38,21 @@ main,
 .proofa-sidebar {
   position: fixed;
   inset: 0 auto 0 0;
-  width: 260px;
+  width: 246px;
   display: flex;
   flex-direction: column;
+  padding: 8px;
+  gap: 4px;
   background: #FFFFFF;
-  border-right: 1px solid #E6EAF2;
+  border-right: none;
   z-index: 1000;
 }
 
 /* TOP (GRAY PILL AREA like Figma) */
 .proofa-sidebar__top {
   position: relative;
-  padding: 12px;
-  background: #F7F9FC; /* серая плашка сверху */
+  padding: 0;
+  background: #FFFFFF;
 }
 
 /* WORKSPACE TOGGLE */
@@ -71,11 +73,14 @@ main,
   display: flex;
   gap: 12px;
   align-items: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .proofa-workspace__logo {
   width: 36px;
   height: 36px;
+  flex: 0 0 36px;
   border-radius: 10px;
   background: #2563EB;
   color: #FFFFFF;
@@ -89,11 +94,16 @@ main,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  min-width: 0;
 }
 
 .proofa-workspace__name {
   font-weight: 600;
   line-height: 1.2;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .proofa-workspace__members {
@@ -109,8 +119,8 @@ main,
 /* WORKSPACE DROPDOWN (FIGMA / WORKING) */
 .proofa-workspace-menu {
   position: absolute;
-  left: 12px;
-  top: 68px;
+  left: 0;
+  top: calc(100% + 4px);
   opacity: 0;
   transform: translateY(-6px);
   pointer-events: none;
@@ -127,22 +137,25 @@ main,
 .workspace-card {
   width: 251px;
   background: #FFFFFF;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 8px 24px rgba(47, 70, 83, 0.12);
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: 0 3px 15px rgba(47, 70, 83, 0.1);
   color: #1C1C1C;
+  overflow: hidden;
 }
 
 .workspace-card__header {
   display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 11px;
+  padding: 16px 16px 0;
+  margin-bottom: 0;
 }
 
 .workspace-card__logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 6px;
   background: #2563EB;
   color: #FFFFFF;
   display: flex;
@@ -151,66 +164,136 @@ main,
   font-weight: 700;
 }
 
-.workspace-card__title { font-weight: 600; }
+.workspace-card__title { font-weight: 600; font-size: 14px; line-height: 1.15; letter-spacing: -0.01em; }
 
 .workspace-card__subtitle {
-  font-size: 12px;
-  color: #6B7280;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: rgba(4, 26, 47, 0.49);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .workspace-card__actions {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  padding: 12px 16px 16px;
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(5, 55, 122, 0.06);
 }
 
 .btn-outline {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #D0D7DE;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+  height: 28px;
+  min-width: 80px;
+  border-radius: 6px;
+  border: 1px solid rgba(5, 55, 105, 0.12);
   background: #FFFFFF;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: rgba(0, 9, 14, 0.95);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-outline:hover {
+  background: #F7F9FC;
+}
+
+.btn-outline:active {
+  background: #F0F3F7;
+}
+
+.btn-outline img {
+  width: 20px;
+  height: 20px;
+}
+
+.workspace-card__list {
+  padding: 8px 0;
 }
 
 .workspace-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 0;
+  padding: 8px 16px;
+  height: 36px;
+}
+
+.workspace-item:hover {
+  background: #F7F9FC;
+}
+
+.workspace-item > span:not(.avatar):not(.check) {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: rgba(13, 39, 57, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .workspace-item .avatar {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  border-radius: 5px;
   background: #F7941D;
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11px;
 }
 
-.workspace-item.active .check { margin-left: auto; }
+.workspace-item.active .check { margin-left: auto; color: #848F99; }
 
 .workspace-card__footer {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid #E5E7EB;
+  margin-top: 0;
+  padding: 8px 0;
+  border-top: 1px solid rgba(5, 55, 122, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
+}
+
+.workspace-card__footer a {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 8px 16px;
+  font-size: 12px;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: rgba(13, 39, 57, 0.75);
+  text-decoration: none;
+}
+
+.workspace-card__footer a:hover {
+  background: #F7F9FC;
 }
 
 /* NAV (WHITE AREA) */
 .proofa-nav {
-  flex: 1;
-  padding: 12px 8px;
-  background: #FFFFFF; /* середина белая */
+  flex: 0 0 auto;
+  padding: 8px;
+  background: rgba(5, 55, 130, 0.04);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .proofa-nav__item {
@@ -219,10 +302,11 @@ main,
   gap: 12px;
   padding: 10px 14px;
   border-radius: 12px;
-  color: #1F2937;
+  background: transparent;
+  color: rgba(13, 39, 57, 0.75);
   text-decoration: none;
   font-weight: 500;
-  margin-bottom: 4px;
+  margin-bottom: 0;
   transition: background .15s ease, color .15s ease;
 }
 
@@ -236,13 +320,14 @@ main,
 }
 
 .proofa-nav__item:hover {
-  background: #EEF2FF;
+  background: #F7F9FC;
+  color: rgba(0, 9, 14, 0.95);
 }
 
 /* ACTIVE */
 .proofa-nav__item.is-active {
-  background: #EEF2FF;
-  color: #2563EB;
+  background: #FFFFFF;
+  color: rgba(0, 9, 14, 0.95);
 }
 
 .proofa-nav__item.is-active img {
@@ -252,16 +337,21 @@ main,
 
 /* BOTTOM (GRAY like Figma) */
 .proofa-sidebar__bottom {
-  padding: 12px;
-  background: #F7F9FC; /* серая плашка снизу */
+  margin-top: auto;
+  padding: 8px;
+  background: rgba(5, 55, 130, 0.04);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 /* CONTENT SHIFT */
 .proofa-content {
-  margin-left: 260px;
+  margin-left: 246px;
   max-width: 100%;
   overflow-x: hidden;
-  width: calc(100% - 260px);
+  width: calc(100% - 246px);
 }
 
 
@@ -271,12 +361,16 @@ main,
 
 .proofa-topbar {
   background: #FFFFFF;
-  padding: 12px 24px 0;  /* ПОДНЯЛИ ВВЕРХ: было 24px */
-  margin: 0;
+ padding: 12px 0 0; /* боковые убираем */
+
 }
 
 .proofa-topbar__inner {
+
   display: flex;
+
+  width: 100%;
+
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
@@ -286,20 +380,36 @@ main,
 }
 
 .proofa-topbar__title {
-  font-size: 28px;
+  font-size: 17px;
   font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
   margin: 0;
   color: #111827;
 }
 
+.proofa-topbar__row {
+  margin-bottom: 16px; /* отступ под заголовком */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+
 /* Серый контейнер под табами (как в макете) */
 .proofa-topbar__nav {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  padding: 8px;             /* ВНУТРЕННИЙ воздух */
   flex-wrap: wrap;
   background: #F7F9FC;   /* серая плашка */
+  border-radius: 14px;
+  margin-bottom: 20px;      /* отступ вниз к фильтрам */
   border-radius: 12px;
-  padding: 6px;
+  
 }
 
 /* таб */
@@ -329,11 +439,12 @@ main,
 
 /* right actions (three dots + import button) */
 .proofa-topbar__actions {
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: static;
   display: flex;
   gap: 10px;
+  margin-inline-start: auto;
+  justify-content: flex-end;
+  flex: 0 0 auto;
 }
 
 
@@ -341,13 +452,17 @@ main,
    3) PAGE CONTAINER WIDTH + REMOVE TOP AIR (ALIGN WITH SIDEBAR)
    ========================================================= */
 
+/* container должен тянуться от края контента (после sidebar) */
 .page-body > .container-xl {
-  max-width: 100%;
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-top: 0 !important;  /* ВАЖНО: убираем воздух сверху */
-  margin-top: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  margin-left: 0 !important;
 }
+
 
 /* ещё жёстче прижимаем контент вверх */
 .page-body,
@@ -447,12 +562,13 @@ header[class*="navbar"],
    ========================================================= */
 
 .proofa-topbar__actions {
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: static;
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-inline-start: auto;
+  justify-content: flex-end;
+  flex: 0 0 auto;
 }
 
 /* three dots button */
@@ -496,4 +612,118 @@ header[class*="navbar"],
 
 .proofa-btn--outline:hover {
   background: #F1F5F9;
+}
+
+
+
+/* =========================================================
+   PROOFA TOPBAR — TABS BACKGROUND (FIGMA)
+   ========================================================= */
+
+/* серая плашка под табами — на всю ширину контента */
+.proofa-topbar__nav {
+  width: 100%;
+  background: #F5F7FA;        /* мягкий серый как в макете */
+  border-radius: 12px;
+  padding: 6px;
+  display: flex;
+  gap: 4px;
+}
+
+/* таб — базовое состояние */
+.proofa-topbar__link {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6B7280;
+  background: transparent;
+  transition:
+    background .15s ease,
+    box-shadow .15s ease,
+    color .15s ease;
+}
+
+/* hover */
+.proofa-topbar__link:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: #111827;
+}
+
+/* ACTIVE TAB — как в Figma */
+.proofa-topbar__link.is-active {
+  background: #FFFFFF;
+  color: #2563EB;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* чтобы табы не растягивались */
+.proofa-topbar__nav > a {
+  white-space: nowrap;
+}
+
+
+
+
+
+
+/* =========================================================
+   PROOFA — TOPBAR TABS (FIGMA MATCH)
+   ========================================================= */
+
+.proofa-topbar__nav {
+  display: flex;
+  gap: 6px;
+  background: #F4F6F8;          /* серая плашка */
+  padding: 4px;
+  border-radius: 14px;
+}
+
+/* обычный таб */
+.proofa-topbar__link {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+
+  color: rgba(13, 39, 57, 0.75);
+  text-decoration: none;
+
+  padding: 6px 12px;
+  border-radius: 12px;
+
+  background: transparent;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* hover */
+.proofa-topbar__link:hover {
+  color: rgba(13, 39, 57, 0.95);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* ACTIVE TAB — как в Figma */
+.proofa-topbar__link.is-active {
+  color: #2563EB; /* синий */
+  background: #FFFFFF;
+
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.06),
+    0 1px 3px rgba(16, 24, 40, 0.10);
+}
+
+
+
+/* topbar всегда на всю ширину контента */
+.proofa-topbar {
+  width: 100%;
+  max-width: 100%;
 }

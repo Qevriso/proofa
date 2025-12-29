@@ -1,5 +1,17 @@
 {% set currentRoute = app.request.attributes.get('_route') %}
 
+{# Workspace placeholders: you can pass workspaceName/workspaceMembers/workspaceInitials from controller #}
+{% set workspaceName = workspaceName|default('GoodGantt Company GoodGantt GoodGantt') %}
+{% set workspaceMembers = workspaceMembers|default('8 участников') %}
+{% set workspaceInitials = workspaceInitials|default(null) %}
+
+{% if workspaceInitials is null %}
+    {% set parts = workspaceName|trim|split(' ') %}
+    {% set first = (parts|length > 0 ? parts[0]|slice(0, 1) : '') %}
+    {% set second = (parts|length > 1 ? parts[1]|slice(0, 1) : '') %}
+    {% set workspaceInitials = (first ~ second)|upper %}
+{% endif %}
+
 <aside class="proofa-sidebar">
 
     <!-- ================= TOP ================= -->
@@ -12,17 +24,11 @@
         >
             <div class="proofa-workspace">
 
-                <div class="proofa-workspace__logo">
-                    G
-                </div>
+                <div class="proofa-workspace__logo">{{ workspaceInitials }}</div>
 
                 <div class="proofa-workspace__info">
-                    <div class="proofa-workspace__name">
-                        GoodGantt Company GoodGantt GoodGantt
-                    </div>
-                    <div class="proofa-workspace__members">
-                        8 участников
-                    </div>
+                    <div class="proofa-workspace__name">{{ workspaceName }}</div>
+                    <div class="proofa-workspace__members">{{ workspaceMembers }}</div>
                 </div>
 
             </div>
@@ -43,23 +49,23 @@
             <div class="workspace-card">
 
                 <div class="workspace-card__header">
-                    <div class="workspace-card__logo">G</div>
+                    <div class="workspace-card__logo">{{ workspaceInitials }}</div>
                     <div>
                         <div class="workspace-card__title">
-                            GoodGantt Company
+                            {{ workspaceName }}
                         </div>
                         <div class="workspace-card__subtitle">
-                            Бесплатный тариф • 8 участников
+                            Бесплатный тариф • {{ workspaceMembers }}
                         </div>
                     </div>
                 </div>
 
                 <div class="workspace-card__actions">
-                    <a href="/{{ app.request.locale }}/admin/team/" class="btn-outline">
+                    <a href="{{ path('system_configuration', {'_locale': app.request.locale}) }}" class="btn-outline">
                         <img src="{{ asset('icons/sidebar/settings.svg') }}" alt="">
                         Настройки
                     </a>
-                    <a href="/{{ app.request.locale }}/admin/user/create/" class="btn-outline">
+                    <a href="{{ path('admin_user_create', {'_locale': app.request.locale}) }}" class="btn-outline">
                         <img src="{{ asset('icons/sidebar/invite.svg') }}" alt="">
                         Пригласить
                     </a>
@@ -83,7 +89,7 @@
 
                 <div class="workspace-card__footer">
                     <a href="#">Добавить рабочее пространство</a>
-                    <a href="#">Выйти</a>
+                    <a href="{{ path('logout', {'_locale': app.request.locale}) }}">Выйти</a>
                 </div>
 
             </div>
@@ -92,46 +98,53 @@
 
     <!-- ================= NAV (WHITE) ================= -->
     <nav class="proofa-nav">
-        <a href="/{{ app.request.locale }}/dashboard"
-           class="proofa-nav__item {{ currentRoute starts with 'dashboard' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/dashboard.svg') }}">
+        {% set isDashboardActive = currentRoute starts with 'dashboard' %}
+        <a href="{{ path('dashboard', {'_locale': app.request.locale}) }}"
+           class="proofa-nav__item {{ isDashboardActive ? 'is-active' }}">
+            <img src="{{ asset(isDashboardActive ? 'icons/sidebar/dashboard.svg' : 'icons/sidebar/dashboard-gray.svg') }}" alt="">
             <span>Dashboard</span>
         </a>
 
+        {% set isAiActive = currentRoute starts with 'ai' %}
         <a href="#"
-           class="proofa-nav__item {{ currentRoute starts with 'ai' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/ai.svg') }}">
+           class="proofa-nav__item {{ isAiActive ? 'is-active' }}">
+            <img src="{{ asset(isAiActive ? 'icons/sidebar/ai-blue.svg' : 'icons/sidebar/ai.svg') }}">
             <span>AI ассистент</span>
         </a>
 
-        <a href="/{{ app.request.locale }}/calendar"
-           class="proofa-nav__item {{ currentRoute starts with 'calendar' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/meetings.svg') }}">
+        {% set isCalendarActive = currentRoute starts with 'calendar' %}
+        <a href="{{ path('calendar', {'_locale': app.request.locale}) }}"
+           class="proofa-nav__item {{ isCalendarActive ? 'is-active' }}">
+            <img src="{{ asset(isCalendarActive ? 'icons/sidebar/meetings-blue.svg' : 'icons/sidebar/meetings.svg') }}" alt="">
             <span>Встречи</span>
         </a>
 
-        <a href="/{{ app.request.locale }}/reporting"
-           class="proofa-nav__item {{ currentRoute starts with 'reporting' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/reports.svg') }}">
+        {% set isReportingActive = currentRoute starts with 'reporting' %}
+        <a href="{{ path('reporting', {'_locale': app.request.locale}) }}"
+           class="proofa-nav__item {{ isReportingActive ? 'is-active' }}">
+            <img src="{{ asset(isReportingActive ? 'icons/sidebar/reports-blue.svg' : 'icons/sidebar/reports.svg') }}" alt="">
             <span>Отчеты</span>
         </a>
 
-        <a href="/{{ app.request.locale }}/timesheet"
-           class="proofa-nav__item {{ currentRoute starts with 'timesheet' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/activity.svg') }}">
+        {% set isTimesheetActive = currentRoute starts with 'timesheet' %}
+        <a href="{{ path('timesheet', {'_locale': app.request.locale}) }}"
+           class="proofa-nav__item {{ isTimesheetActive ? 'is-active' }}">
+            <img src="{{ asset(isTimesheetActive ? 'icons/sidebar/activity-blue.svg' : 'icons/sidebar/activity.svg') }}" alt="">
             <span>Активность</span>
         </a>
 
         {# Проекты и Клиенты — ведёт на admin_project #}
+        {% set isProjectsActive = currentRoute starts with 'admin_project' %}
         <a href="{{ path('admin_project', {'_locale': app.request.locale}) }}"
-           class="proofa-nav__item {{ currentRoute starts with 'admin_project' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/projects.svg') }}" alt="">
+           class="proofa-nav__item {{ isProjectsActive ? 'is-active' }}">
+            <img src="{{ asset(isProjectsActive ? 'icons/sidebar/projects-blue.svg' : 'icons/sidebar/projects.svg') }}" alt="">
             <span>Проекты и клиенты</span>
         </a>
 
-        <a href="/{{ app.request.locale }}/invoice"
-           class="proofa-nav__item {{ currentRoute starts with 'invoice' ? 'is-active' }}">
-            <img src="{{ asset('icons/sidebar/invoices.svg') }}">
+        {% set isInvoiceActive = currentRoute starts with 'invoice' %}
+        <a href="{{ path('invoice', {'_locale': app.request.locale}) }}"
+           class="proofa-nav__item {{ isInvoiceActive ? 'is-active' }}">
+            <img src="{{ asset(isInvoiceActive ? 'icons/sidebar/invoices-blue.svg' : 'icons/sidebar/invoices.svg') }}" alt="">
             <span>Счета</span>
         </a>
     </nav>
@@ -139,12 +152,12 @@
     <!-- ================= BOTTOM ================= -->
 <!-- ================= BOTTOM ================= -->
 <div class="proofa-sidebar__bottom">
-    <a href="#" class="proofa-nav__item">
-        <img src="{{ asset('icons/sidebar/team.svg') }}">
+    <a href="{{ path('system_configuration', {'_locale': app.request.locale}) }}" class="proofa-nav__item">
+        <img src="{{ asset('icons/sidebar/team.svg') }}" alt="">
         <span>Настройки команды</span>
     </a>
-    <a href="#" class="proofa-nav__item">
-        <img src="{{ asset('icons/sidebar/more.svg') }}">
+    <a href="{{ path('plugins', {'_locale': app.request.locale}) }}" class="proofa-nav__item">
+        <img src="{{ asset('icons/sidebar/more.svg') }}" alt="">
         <span>Еще</span>
     </a>
 </div>

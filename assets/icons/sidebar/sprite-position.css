@@ -1,0 +1,618 @@
+.group {
+    background: url(group.png) no-repeat;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    }
+.20px_/_basic_/__home {
+background-position: 0 0;
+}
+.20px_/_basic_/__chart {
+background-position: -20px 0;
+}
+.20px_/_basic_/__case {
+background-position: -40px 0;
+}
+.20px_/_basic_/__timer {
+background-position: -60px 0;
+}
+.20px_/_basic_/__pie_chart {
+background-position: -80px 0;
+}
+.20px_/_basic_/__invoice {
+background-position: -100px 0;
+}
+.20px_/_basic_/__bell {
+background-position: -120px 0;
+}
+.20px_/_basic_/__settings {
+background-position: -140px 0;
+}
+.20px_/_basic_/__question {
+background-position: -160px 0;
+}
+.20px_/_basic_/__assistant {
+background-position: -180px 0;
+}
+.20px_/_basic_/__plus {
+background-position: -200px 0;
+}
+.20px_/_basic_/__history {
+background-position: -220px 0;
+}
+.20px_/_basic_/__more {
+background-position: -240px 0;
+}
+.20px_/_basic_/__microphone {
+background-position: -260px 0;
+}
+.20px_/_basic_/__squared_cross {
+background-position: -280px 0;
+}
+.20px_/_basic_/__sort_up {
+background-position: 0 -20px;
+}
+.20px_/_basic_/__sort_down {
+background-position: -20px -20px;
+}
+.20px_/_basic_/__search {
+background-position: -40px -20px;
+}
+.20px_/_basic_/__table {
+background-position: -60px -20px;
+}
+.20px_/_basic_/__filter {
+background-position: -80px -20px;
+}
+.20px_/_basic_/__arrow_m_/_bottom {
+background-position: -100px -20px;
+}
+.20px_/_basic_/__arrow_m_/_top {
+background-position: -120px -20px;
+}
+.20px_/_basic_/__arrow_m_/_right {
+background-position: -140px -20px;
+}
+.20px_/_basic_/__arrow_m_/_left {
+background-position: -160px -20px;
+}
+.20px_/_basic_/__cross {
+background-position: -180px -20px;
+}
+.20px_/_basic_/__doc_import {
+background-position: -200px -20px;
+}
+.20px_/_basic_/__calendar {
+background-position: -220px -20px;
+}
+.20px_/_basic_/__export {
+background-position: -240px -20px;
+}
+.20px_/_basic_/__calc {
+background-position: -260px -20px;
+}
+.20px_/_basic_/__return {
+background-position: -280px -20px;
+}
+.20px_/_basic_/__user {
+background-position: 0 -40px;
+}
+.20px_/_basic_/__mail {
+background-position: -20px -40px;
+}
+.20px_/_basic_/__password {
+background-position: -40px -40px;
+}
+.20px_/_basic_/__star {
+background-position: -60px -40px;
+}
+.20px_/_basic_/__bubble {
+background-position: -80px -40px;
+}
+.20px_/_basic_/__copy {
+background-position: -100px -40px;
+}
+.20px_/_basic_/__doc {
+background-position: -120px -40px;
+}
+.20px_/_basic_/__edit {
+background-position: -140px -40px;
+}
+.20px_/_basic_/__layers {
+background-position: -160px -40px;
+}
+.20px_/_basic_/__send {
+background-position: -180px -40px;
+}
+.20px_/_basic_/__attachment {
+background-position: -200px -40px;
+}
+.20px_/_basic_/__thumb_up {
+background-position: -220px -40px;
+}
+.20px_/_basic_/__rewind-10 {
+background-position: -240px -40px;
+}
+.20px_/_basic_/__thumb_down {
+background-position: -260px -40px;
+}
+.20px_/_basic_/__towind-10 {
+background-position: -280px -40px;
+}
+.20px_/_basic_/__pause {
+background-position: 0 -60px;
+}
+.20px_/_basic_/__play {
+background-position: -20px -60px;
+}
+.20px_/_basic_/__signature {
+background-position: -40px -60px;
+}
+.20px_/_basic_/__video_off {
+background-position: -60px -60px;
+}
+.20px_/_basic_/__globe {
+background-position: -80px -60px;
+}
+.20px_/_basic_/__download {
+background-position: -100px -60px;
+}
+.20px_/_basic_/__link {
+background-position: -120px -60px;
+}
+.20px_/_basic_/__call {
+background-position: -140px -60px;
+}
+.20px_/_basic_/__phone {
+background-position: -160px -60px;
+}
+.20px_/_basic_/__fax {
+background-position: -180px -60px;
+}
+.20px_/_basic_/__blur {
+background-position: -200px -60px;
+}
+.20px_/_basic_/__trash {
+background-position: -220px -60px;
+}
+.20px_/_basic_/__arrow_l_/_right {
+background-position: -240px -60px;
+}
+.20px_/_basic_/__arrow_l_/_left {
+background-position: -260px -60px;
+}
+.20px_/_basic_/__pin_off {
+background-position: -280px -60px;
+}
+.20px_/_basic_/__pin {
+background-position: 0 -80px;
+}
+.20px_/_basic_/__check {
+background-position: -20px -80px;
+}
+.20px_/_basic_/__arrow_s_/_bottom {
+background-position: -40px -80px;
+}
+.20px_/_basic_/__arrow_s_/_top {
+background-position: -60px -80px;
+}
+.20px_/_basic_/__arrow_s_/_right {
+background-position: -80px -80px;
+}
+.20px_/_basic_/__arrow_s_/_left {
+background-position: -100px -80px;
+}
+.20px_/_basic_/__add_user {
+background-position: -120px -80px;
+}
+.20px_/_basic_/__add_list {
+background-position: -140px -80px;
+}
+.20px_/_accent_/__return {
+background-position: -160px -80px;
+}
+.20px_/_accent_/__pause {
+background-position: -180px -80px;
+}
+.20px_/_accent_/__edit {
+background-position: -200px -80px;
+}
+.20px_/_accent_/__question {
+background-position: -220px -80px;
+}
+.20px_/_accent_/__arrow_s_/_bottom {
+background-position: -240px -80px;
+}
+.20px_/_accent_/__home {
+background-position: -260px -80px;
+}
+.20px_/_accent_/__play {
+background-position: -280px -80px;
+}
+.20px_/_accent_/__calc {
+background-position: 0 -100px;
+}
+.20px_/_accent_/__assistant {
+background-position: -20px -100px;
+}
+.20px_/_accent_/__arrow_s_/_top {
+background-position: -40px -100px;
+}
+.20px_/_accent_/__settings {
+background-position: -60px -100px;
+}
+.20px_/_accent_/__thumb_up {
+background-position: -80px -100px;
+}
+.20px_/_accent_/__signature {
+background-position: -100px -100px;
+}
+.20px_/_accent_/__table {
+background-position: -120px -100px;
+}
+.20px_/_accent_/__arrow_s_/_left {
+background-position: -140px -100px;
+}
+.20px_/_accent_/__case {
+background-position: -160px -100px;
+}
+.20px_/_accent_/__thumb_down {
+background-position: -180px -100px;
+}
+.20px_/_accent_/__layers {
+background-position: -200px -100px;
+}
+.20px_/_accent_/__plus {
+background-position: -220px -100px;
+}
+.20px_/_accent_/__arrow_s_/_right {
+background-position: -240px -100px;
+}
+.20px_/_accent_/__chart {
+background-position: -260px -100px;
+}
+.20px_/_accent_/__rewind-10 {
+background-position: -280px -100px;
+}
+.20px_/_accent_/__doc {
+background-position: 0 -120px;
+}
+.20px_/_accent_/__more {
+background-position: -20px -120px;
+}
+.20px_/_accent_/__towind-10 {
+background-position: -40px -120px;
+}
+.20px_/_accent_/__doc_import {
+background-position: -60px -120px;
+}
+.20px_/_accent_/__squared_cross {
+background-position: -80px -120px;
+}
+.20px_/_accent_/__arrow_m_/_bottom {
+background-position: -100px -120px;
+}
+.20px_/_accent_/__timer {
+background-position: -120px -120px;
+}
+.20px_/_accent_/__copy {
+background-position: -140px -120px;
+}
+.20px_/_accent_/__export {
+background-position: -160px -120px;
+}
+.20px_/_accent_/__sort_up {
+background-position: -180px -120px;
+}
+.20px_/_accent_/__arrow_m_/_top {
+background-position: -200px -120px;
+}
+.20px_/_accent_/__pie_chart {
+background-position: -220px -120px;
+}
+.20px_/_accent_/__calendar {
+background-position: -240px -120px;
+}
+.20px_/_accent_/__microphone {
+background-position: -260px -120px;
+}
+.20px_/_accent_/__sort_down {
+background-position: -280px -120px;
+}
+.20px_/_accent_/__arrow_m_/_left {
+background-position: 0 -140px;
+}
+.20px_/_accent_/__invoice {
+background-position: -20px -140px;
+}
+.20px_/_accent_/__bubble {
+background-position: -40px -140px;
+}
+.20px_/_accent_/__history {
+background-position: -60px -140px;
+}
+.20px_/_accent_/__search {
+background-position: -80px -140px;
+}
+.20px_/_accent_/__arrow_m_/_right {
+background-position: -100px -140px;
+}
+.20px_/_accent_/__bell {
+background-position: -120px -140px;
+}
+.20px_/_accent_/__user {
+background-position: -140px -140px;
+}
+.20px_/_accent_/__mail {
+background-position: -160px -140px;
+}
+.20px_/_accent_/__pin_off {
+background-position: -180px -140px;
+}
+.20px_/_accent_/__star {
+background-position: -200px -140px;
+}
+.20px_/_accent_/__filter {
+background-position: -220px -140px;
+}
+.20px_/_accent_/__password {
+background-position: -240px -140px;
+}
+.20px_/_accent_/__pin {
+background-position: -260px -140px;
+}
+.20px_/_accent_/__arrow_l_/_right {
+background-position: -280px -140px;
+}
+.20px_/_accent_/__check {
+background-position: 0 -160px;
+}
+.20px_/_accent_/__link {
+background-position: -20px -160px;
+}
+.20px_/_accent_/__video_off {
+background-position: -40px -160px;
+}
+.20px_/_accent_/__globe {
+background-position: -60px -160px;
+}
+.20px_/_accent_/__arrow_l_/_left {
+background-position: -80px -160px;
+}
+.20px_/_accent_/__cross {
+background-position: -100px -160px;
+}
+.20px_/_accent_/__attachment {
+background-position: -120px -160px;
+}
+.20px_/_accent_/__call {
+background-position: -140px -160px;
+}
+.20px_/_accent_/__download {
+background-position: -160px -160px;
+}
+.20px_/_accent_/__send {
+background-position: -180px -160px;
+}
+.20px_/_accent_/__blur {
+background-position: -200px -160px;
+}
+.20px_/_accent_/__phone {
+background-position: -220px -160px;
+}
+.20px_/_accent_/__trash {
+background-position: -240px -160px;
+}
+.20px_/_accent_/__add_user {
+background-position: -260px -160px;
+}
+.20px_/_accent_/__fax {
+background-position: -280px -160px;
+}
+.20px_/_accent_/__add_list {
+background-position: 0 -180px;
+}
+.20px_/_inverse_/__return {
+background-position: -20px -180px;
+}
+.20px_/_inverse_/__pause {
+background-position: -40px -180px;
+}
+.20px_/_inverse_/__edit {
+background-position: -60px -180px;
+}
+.20px_/_inverse_/__question {
+background-position: -80px -180px;
+}
+.20px_/_inverse_/__arrow_s_/_bottom {
+background-position: -100px -180px;
+}
+.20px_/_inverse_/__home {
+background-position: -120px -180px;
+}
+.20px_/_inverse_/__play {
+background-position: -140px -180px;
+}
+.20px_/_inverse_/__calc {
+background-position: -160px -180px;
+}
+.20px_/_inverse_/__assistant {
+background-position: -180px -180px;
+}
+.20px_/_inverse_/__arrow_s_/_top {
+background-position: -200px -180px;
+}
+.20px_/_inverse_/__settings {
+background-position: -220px -180px;
+}
+.20px_/_inverse_/__thumb_up {
+background-position: -240px -180px;
+}
+.20px_/_inverse_/__signature {
+background-position: -260px -180px;
+}
+.20px_/_inverse_/__table {
+background-position: -280px -180px;
+}
+.20px_/_inverse_/__arrow_s_/_left {
+background-position: 0 -200px;
+}
+.20px_/_inverse_/__case {
+background-position: -20px -200px;
+}
+.20px_/_inverse_/__thumb_down {
+background-position: -40px -200px;
+}
+.20px_/_inverse_/__layers {
+background-position: -60px -200px;
+}
+.20px_/_inverse_/__plus {
+background-position: -80px -200px;
+}
+.20px_/_inverse_/__arrow_s_/_right {
+background-position: -100px -200px;
+}
+.20px_/_inverse_/__chart {
+background-position: -120px -200px;
+}
+.20px_/_inverse_/__rewind-10 {
+background-position: -140px -200px;
+}
+.20px_/_inverse_/__doc {
+background-position: -160px -200px;
+}
+.20px_/_inverse_/__more {
+background-position: -180px -200px;
+}
+.20px_/_inverse_/__towind-10 {
+background-position: -200px -200px;
+}
+.20px_/_inverse_/__doc_import {
+background-position: -220px -200px;
+}
+.20px_/_inverse_/__squared_cross {
+background-position: -240px -200px;
+}
+.20px_/_inverse_/__arrow_m_/_bottom {
+background-position: -260px -200px;
+}
+.20px_/_inverse_/__timer {
+background-position: -280px -200px;
+}
+.20px_/_inverse_/__copy {
+background-position: 0 -220px;
+}
+.20px_/_inverse_/__export {
+background-position: -20px -220px;
+}
+.20px_/_inverse_/__sort_up {
+background-position: -40px -220px;
+}
+.20px_/_inverse_/__arrow_m_/_top {
+background-position: -60px -220px;
+}
+.20px_/_inverse_/__pie_chart {
+background-position: -80px -220px;
+}
+.20px_/_inverse_/__calendar {
+background-position: -100px -220px;
+}
+.20px_/_inverse_/__microphone {
+background-position: -120px -220px;
+}
+.20px_/_inverse_/__sort_down {
+background-position: -140px -220px;
+}
+.20px_/_inverse_/__arrow_m_/_left {
+background-position: -160px -220px;
+}
+.20px_/_inverse_/__invoice {
+background-position: -180px -220px;
+}
+.20px_/_inverse_/__bubble {
+background-position: -200px -220px;
+}
+.20px_/_inverse_/__history {
+background-position: -220px -220px;
+}
+.20px_/_inverse_/__search {
+background-position: -240px -220px;
+}
+.20px_/_inverse_/__arrow_m_/_right {
+background-position: -260px -220px;
+}
+.20px_/_inverse_/__bell {
+background-position: -280px -220px;
+}
+.20px_/_inverse_/__user {
+background-position: 0 -240px;
+}
+.20px_/_inverse_/__mail {
+background-position: -20px -240px;
+}
+.20px_/_inverse_/__pin_off {
+background-position: -40px -240px;
+}
+.20px_/_inverse_/__star {
+background-position: -60px -240px;
+}
+.20px_/_inverse_/__filter {
+background-position: -80px -240px;
+}
+.20px_/_inverse_/__password {
+background-position: -100px -240px;
+}
+.20px_/_inverse_/__pin {
+background-position: -120px -240px;
+}
+.20px_/_inverse_/__arrow_l_/_right {
+background-position: -140px -240px;
+}
+.20px_/_inverse_/__check {
+background-position: -160px -240px;
+}
+.20px_/_inverse_/__link {
+background-position: -180px -240px;
+}
+.20px_/_inverse_/__video_off {
+background-position: -200px -240px;
+}
+.20px_/_inverse_/__globe {
+background-position: -220px -240px;
+}
+.20px_/_inverse_/__arrow_l_/_left {
+background-position: -240px -240px;
+}
+.20px_/_inverse_/__cross {
+background-position: -260px -240px;
+}
+.20px_/_inverse_/__attachment {
+background-position: -280px -240px;
+}
+.20px_/_inverse_/__call {
+background-position: 0 -260px;
+}
+.20px_/_inverse_/__download {
+background-position: -20px -260px;
+}
+.20px_/_inverse_/__send {
+background-position: -40px -260px;
+}
+.20px_/_inverse_/__blur {
+background-position: -60px -260px;
+}
+.20px_/_inverse_/__phone {
+background-position: -80px -260px;
+}
+.20px_/_inverse_/__trash {
+background-position: -100px -260px;
+}
+.20px_/_inverse_/__add_user {
+background-position: -120px -260px;
+}
+.20px_/_inverse_/__fax {
+background-position: -140px -260px;
+}
+.20px_/_inverse_/__add_list {
+background-position: -160px -260px;
+}
